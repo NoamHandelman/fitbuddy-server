@@ -27,9 +27,7 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-// if (process.env.NODE_ENV === 'development') {
 app.use(morgan('dev'));
-// }
 
 app.use('/api/users', userRouter);
 app.use('/api/posts', [deserializeUser, validateUser], postRouter);
