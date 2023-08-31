@@ -50,9 +50,7 @@ export const handleLikeController = async (
   next: NextFunction
 ) => {
   try {
-    const { postId } = req.params;
-    const { user } = res.locals;
-    const post = await handleLike({ _id: postId }, user);
+    const post = await handleLike(req.params.postId, res.locals.user);
     res.status(200).json({ post });
   } catch (error) {
     next(error);
@@ -65,11 +63,11 @@ export const editPostController = async (
   next: NextFunction
 ) => {
   try {
-    const { postId } = req.params;
-    const { user } = res.locals;
-
-    const updatedPost = await editPost({ _id: postId }, req.body, user);
-
+    const updatedPost = await editPost(
+      req.params.postId,
+      req.body,
+      res.locals.user
+    );
     res
       .status(200)
       .json({ updatedPost, message: 'Post successfully updated!' });
@@ -84,10 +82,7 @@ export const deletePostController = async (
   next: NextFunction
 ) => {
   try {
-    const { postId } = req.params;
-    const { user } = res.locals;
-
-    await deletePost({ _id: postId }, user);
+    await deletePost(req.params.postId, res.locals.user);
 
     res.status(200).json({ message: 'Post successfully deleted!' });
   } catch (error) {

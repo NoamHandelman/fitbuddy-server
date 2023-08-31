@@ -36,7 +36,7 @@ export const getCommentsController = async (
   next: NextFunction
 ) => {
   try {
-    const comments = await getComments({ post: req.params.postId });
+    const comments = await getComments(req.params.postId!);
     res.status(200).json({ comments });
   } catch (error) {
     next(error);
@@ -49,18 +49,13 @@ export const editCommentController = async (
   next: NextFunction
 ) => {
   try {
-    const { user } = res.locals;
-    const { commentId } = req.params;
-
-    const updatedComment = await editComment(
-      { _id: commentId },
+    const comment = await editComment(
+      req.params.commentId!,
       req.body,
-      user
+      res.locals.user
     );
 
-    res
-      .status(200)
-      .json({ updatedComment, message: 'Comment successfully updated!' });
+    res.status(200).json({ comment, message: 'Comment successfully updated!' });
   } catch (error) {
     next(error);
   }
@@ -72,11 +67,7 @@ export const deleteCommentController = async (
   next: NextFunction
 ) => {
   try {
-    const { user } = res.locals;
-    const { commentId } = req.params;
-
-    await deleteComment({ _id: commentId }, user);
-
+    await deleteComment(req.params.commentId!, res.locals.user);
     res.status(200).json({ message: 'Comment successfully deleted!' });
   } catch (error) {
     next(error);

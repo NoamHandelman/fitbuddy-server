@@ -70,10 +70,10 @@ export type RegisterUserInput = Omit<
   'passwordConfirmation'
 >;
 
+export const getUserSchema = z.object({ ...params });
+
 export type LoginUserInput = z.infer<typeof loginUserSchema>['body'];
 
 export type EditUserInput = z.infer<typeof editUserSchema>['body'];
-
-export const getUserSchema = z.object({ ...params });
 
 export type GetUserInput = z.infer<typeof getUserSchema>['params'];

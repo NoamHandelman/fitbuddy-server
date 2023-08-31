@@ -98,11 +98,11 @@ export const addUserImageController = async (
 ) => {
   try {
     if (req.file) {
-      const user = await addUserImage(res.locals.user, req.file);
+      const imageUrl = await addUserImage(res.locals.user, req.file);
 
       res
         .status(200)
-        .json({ user, message: 'Profile image successfully added!' });
+        .json({ imageUrl, message: 'Profile image successfully added!' });
     }
   } catch (error) {
     next(error);
@@ -115,10 +115,8 @@ export const deleteUserImageController = async (
   next: NextFunction
 ) => {
   try {
-    const user = await deleteUserImage(res.locals.user);
-    res
-      .status(200)
-      .json({ user, message: 'Profile image successfully deleted!' });
+    await deleteUserImage(res.locals.user);
+    res.status(200).json({ message: 'Profile image successfully deleted!' });
   } catch (error) {
     next(error);
   }

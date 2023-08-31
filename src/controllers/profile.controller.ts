@@ -45,11 +45,9 @@ export const editProfileController = async (
   next: NextFunction
 ) => {
   try {
-    const updatedProfile = await editProfile(res.locals.user, { ...req.body });
+    const profile = await editProfile(res.locals.user, { ...req.body });
 
-    res
-      .status(200)
-      .json({ updatedProfile, message: 'Profile successfully updated!' });
+    res.status(200).json({ profile, message: 'Profile successfully updated!' });
   } catch (error) {
     next(error);
   }

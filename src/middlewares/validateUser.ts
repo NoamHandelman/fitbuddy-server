@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { UnauthorizedError } from '../errors/unauthorized';
+import { UnauthorizedError } from '../errors/Unauthorized';
 import { findUser } from '../services/user.service';
 
 export const validateUser = async (
@@ -8,9 +8,7 @@ export const validateUser = async (
   next: NextFunction
 ) => {
   try {
-    const { user } = res.locals;
-
-    const foundUser = await findUser({ _id: user });
+    const foundUser = await findUser({ _id: res.locals.user });
 
     if (!foundUser) {
       throw new UnauthorizedError(

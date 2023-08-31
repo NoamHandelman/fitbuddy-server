@@ -1,5 +1,5 @@
 import { FilterQuery, UpdateQuery } from 'mongoose';
-import { NotFoundError } from '../errors/notFound';
+import { NotFoundError } from '../errors/NotFound';
 import Comment, {
   ICommentDocument,
   ICommentInput,
@@ -31,8 +31,8 @@ export const createComment = async (input: ICommentInput) => {
   return comment;
 };
 
-export const getComments = async (query: FilterQuery<ICommentDocument>) => {
-  const comments = await Comment.find(query)
+export const getComments = async (postId: string) => {
+  const comments = await Comment.find({ post: postId })
     .sort({ createdAt: -1 })
     .populate({ path: 'user', select: ['username', 'imageUrl'] });
 
@@ -44,11 +44,11 @@ export const getComments = async (query: FilterQuery<ICommentDocument>) => {
 };
 
 export const editComment = async (
-  query: FilterQuery<ICommentDocument>,
+  commentId: string,
   update: UpdateQuery<ICommentDocument>,
   userId: string
 ) => {
-  const comment = await findComment(query);
+  const comment = await findComment({ _id: commentId });
 
   if (!comment) {
     throw new NotFoundError('Unable to find comment!');
@@ -56,9 +56,13 @@ export const editComment = async (
 
   validatePermissions(comment.user, userId);
 
-  const updatedComment = await Comment.findByIdAndUpdate(query, update, {
-    new: true,
-  });
+  const updatedComment = await Comment.findByIdAndUpdate(
+    { _id: commentId },
+    update,
+    {
+      new: true,
+    }
+  );
 
   if (!updatedComment) {
     throw new Error('Unable to edit comment, please try again later!');
@@ -67,11 +71,8 @@ export const editComment = async (
   return updatedComment;
 };
 
-export const deleteComment = async (
-  query: FilterQuery<ICommentDocument>,
-  userId: string
-) => {
-  const comment = await findComment(query);
+export const deleteComment = async (commentId: string, userId: string) => {
+  const comment = await findComment({ _id: commentId });
 
   if (!comment) {
     throw new NotFoundError('Unable to find comment!');
@@ -79,7 +80,7 @@ export const deleteComment = async (
 
   validatePermissions(comment.user, userId);
 
-  const deletedComment = await Comment.deleteOne(query);
+  const deletedComment = await Comment.deleteOne({ _id: commentId });
 
   if (!deletedComment) {
     throw new Error('Unable to delete comment, please try again later!');

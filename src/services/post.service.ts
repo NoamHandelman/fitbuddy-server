@@ -1,6 +1,6 @@
 import { FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
 import Post, { IPostDocument, IPostInput } from '../models/post.model';
-import { NotFoundError } from '../errors/notFound';
+import { NotFoundError } from '../errors/NotFound';
 import { validatePermissions } from '../utils/validatePermissions';
 import { findUser } from './user.service';
 
@@ -40,23 +40,20 @@ export const getAllPosts = async (page: string) => {
   return posts;
 };
 
-export const handleLike = async (
-  query: FilterQuery<IPostDocument>,
-  user: string
-) => {
-  const post = await findPost(query);
+export const handleLike = async (postId: string, userId: string) => {
+  const post = await findPost({ _id: postId });
   if (!post) {
     throw new NotFoundError('Unable to find post!');
   }
 
   const userIndex = post.likes.findIndex(
-    (like) => like.user.toString() === user
+    (like) => like.user.toString() === userId
   );
 
   if (userIndex !== -1) {
     post.likes.splice(userIndex, 1);
   } else {
-    const requiredUser = await findUser({ _id: user });
+    const requiredUser = await findUser({ _id: userId });
     if (!requiredUser) {
       throw new NotFoundError('Unable to find user!');
     }
@@ -68,11 +65,11 @@ export const handleLike = async (
 };
 
 export const editPost = async (
-  query: FilterQuery<IPostDocument>,
+  postId: string,
   update: UpdateQuery<IPostDocument>,
   userId: string
 ) => {
-  const post = await findPost(query);
+  const post = await findPost({ _id: postId });
   if (!post) {
     throw new NotFoundError('Unable to find this post!');
   }
@@ -83,7 +80,9 @@ export const editPost = async (
 
   console.log(update);
 
-  const updatedPost = await Post.findOneAndUpdate(query, update, { new: true });
+  const updatedPost = await Post.findOneAndUpdate({ _id: postId }, update, {
+    new: true,
+  });
 
   if (!updatedPost) {
     throw new Error('Unable do update post, try again later!');
@@ -92,18 +91,17 @@ export const editPost = async (
   return updatedPost;
 };
 
-export const deletePost = async (
-  query: FilterQuery<IPostDocument>,
-  userId: string
-) => {
-  const post = await findPost(query);
+export const deletePost = async (postId: string, userId: string) => {
+  console.log(postId, userId);
+
+  const post = await findPost({ _id: postId });
   if (!post) {
     throw new NotFoundError('Unable to find this post!');
   }
 
   validatePermissions(post.user, userId);
 
-  const deletedPost = await Post.deleteOne(query);
+  const deletedPost = await Post.deleteOne({ _id: postId });
   if (!deletedPost) {
     throw new Error('Unable do delete post, please try again later!');
   }

@@ -31,7 +31,7 @@ export const deleteCommentSchema = z.object({ ...params });
 
 export type CreateCommentInput = z.infer<typeof createCommentSchema>;
 
-export type GetCommentInput = z.infer<typeof deleteCommentSchema>['params'];
+export type GetCommentInput = z.infer<typeof getCommentsSchema>['params'];
 
 export type EditCommentInput = z.infer<typeof editCommentSchema>;
 

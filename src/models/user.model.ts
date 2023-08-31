@@ -54,12 +54,16 @@ UserSchema.methods.comparePassword = async function (password: string) {
 };
 
 UserSchema.methods.createAccessToken = function () {
-  const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET as string;
-  const accessTokenSecretLifetime = process.env
-    .ACCESS_SECRET_LIFETIME as string;
+  const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+  const accessTokenSecretLifetime = process.env.ACCESS_TOKEN_SECRET_LIFETIME;
+  if (!accessTokenSecret || !accessTokenSecretLifetime) {
+    return console.error(
+      'No access token secret or secret lifetime found in .env file!'
+    );
+  }
 
   return jwt.sign({ user: this._id }, accessTokenSecret, {
-    expiresIn: '1h',
+    expiresIn: accessTokenSecretLifetime,
   });
 };
 

@@ -6,8 +6,8 @@ import {
   LoginUserInput,
   RegisterUserInput,
 } from '../schemas/user.schema';
-import { BadRequestError } from '../errors/badRequest';
-import { NotFoundError } from '../errors/notFound';
+import { BadRequestError } from '../errors/BadRequest';
+import { NotFoundError } from '../errors/NotFound';
 import { deleteProfile } from './profile.service';
 import { updatePosts } from './post.service';
 import { generateS3Url, deleteS3Image } from '../utils/s3';
@@ -88,10 +88,6 @@ export const addUserImage = async (
       throw new NotFoundError('Unable to find this user!');
     }
 
-    // const key = user._id.toString();
-
-    // await generateS3Url(key, file);
-
     await generateS3Url(file);
 
     const imageUrl = `https://d38sh0xhlkw1p8.cloudfront.net/${file.originalname}`;
@@ -99,9 +95,10 @@ export const addUserImage = async (
     user.imageUrl = imageUrl;
     await user.save();
 
-    user.password = undefined!;
+    // user.password = undefined!;
 
-    return user;
+    // return user;
+    return imageUrl;
   } catch (error: any) {
     throw new Error(error);
   }
@@ -125,10 +122,6 @@ export const deleteUserImage = async (userId: string) => {
 
     user.imageUrl = undefined!;
     await user.save();
-
-    user.password = undefined!;
-
-    return user;
   } catch (error: any) {
     throw new Error(error);
   }
@@ -146,7 +139,7 @@ export const deleteUser = async (userId: string) => {
 
   await deleteProfile(query);
 
-  await User.deleteOne({ id: userId });
+  await User.deleteOne({ _id: userId });
 };
 
 export const findUser = async (query: FilterQuery<IUser>) => {

@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { UnauthorizedError } from '../errors/unauthorized';
+import { UnauthorizedError } from '../errors/Unauthorized';
 
 export const validatePermissions = (
   ownerUser: Types.ObjectId,

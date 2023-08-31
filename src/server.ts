@@ -15,7 +15,7 @@ import { deserializeUser } from './middlewares/deserializeUser';
 import { validateUser } from './middlewares/validateUser';
 
 const app = express();
-const port = 4000;
+const port = 8080;
 
 app.use(
   cors({
