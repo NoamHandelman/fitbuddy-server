@@ -19,8 +19,10 @@ const port = 8080;
 
 app.use(
   cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://fitbuddy-client.vercel.app',
+    // 'http://localhost:3000',
     credentials: true,
+    optionsSuccessStatus: 204,
   })
 );
 
