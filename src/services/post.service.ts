@@ -40,6 +40,34 @@ export const getAllPosts = async (page: string) => {
   return posts;
 };
 
+export const getUserPosts = async (page: string, userId: string) => {
+  const skip = (+page - 1) * 3;
+  const posts = await Post.find({ user: userId })
+    .skip(skip)
+    .limit(3)
+    .sort({ createdAt: -1 })
+    .populate({
+      path: 'likes.user',
+      select: ['username', 'imageUrl'],
+    })
+    .populate({
+      path: 'comments',
+      options: { sort: { createdAt: -1 }, limit: 2 },
+      populate: {
+        path: 'user',
+        select: ['username', 'imageUrl'],
+      },
+    })
+    .populate({
+      path: 'user',
+      select: ['username', 'imageUrl'],
+    });
+  if (!posts) {
+    throw new Error('Unable to get all posts, please try again later!');
+  }
+  return posts;
+};
+
 export const handleLike = async (postId: string, userId: string) => {
   const post = await findPost({ _id: postId });
   if (!post) {

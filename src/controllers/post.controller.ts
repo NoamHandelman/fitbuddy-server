@@ -5,6 +5,7 @@ import {
   DeletePostInput,
   HandleLikeInput,
   GetPostsInput,
+  GetUserPostsInput,
 } from '../schemas/post.schema';
 import {
   createPost,
@@ -12,6 +13,7 @@ import {
   handleLike,
   editPost,
   deletePost,
+  getUserPosts,
 } from '../services/post.service';
 
 export const createPostController = async (
@@ -37,6 +39,21 @@ export const getAllPostsController = async (
   try {
     if (req.query.page) {
       const posts = await getAllPosts(req.query.page);
+      res.status(200).json({ posts });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserPostsController = async (
+  req: Request<GetUserPostsInput['params'], {}, {}, GetUserPostsInput['query']>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (req.query.page) {
+      const posts = await getUserPosts(req.query.page, req.params.userId);
       res.status(200).json({ posts });
     }
   } catch (error) {

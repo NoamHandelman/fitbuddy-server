@@ -6,6 +6,7 @@ import {
   editPostSchema,
   deletePostSchema,
   getPostsSchema,
+  getUserPostsSchema,
 } from '../schemas/post.schema';
 import {
   createPostController,
@@ -13,6 +14,7 @@ import {
   handleLikeController,
   editPostController,
   deletePostController,
+  getUserPostsController,
 } from '../controllers/post.controller';
 
 const router = express.Router();
@@ -24,6 +26,10 @@ router.route('/').get(validateRequest(getPostsSchema), getAllPostsController);
 router
   .route('/:postId/likes')
   .get(validateRequest(handleLikeSchema), handleLikeController);
+
+router
+  .route('/:userId')
+  .get(validateRequest(getUserPostsSchema), getUserPostsController);
 
 router
   .route('/:postId')

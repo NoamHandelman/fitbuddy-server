@@ -95,9 +95,6 @@ export const addUserImage = async (
     user.imageUrl = imageUrl;
     await user.save();
 
-    // user.password = undefined!;
-
-    // return user;
     return imageUrl;
   } catch (error: any) {
     throw new Error(error);
