@@ -27,14 +27,14 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-app.use(morgan('dev'));
+app.use(morgan('tiny'));
 
-app.use('/api/users', userRouter);
-app.use('/api/posts', [deserializeUser, validateUser], postRouter);
-app.use('/api/comments', [deserializeUser, validateUser], commentRouter);
-app.use('/api/profiles', [deserializeUser, validateUser], profileRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/posts', [deserializeUser, validateUser], postRouter);
+app.use('/api/v1/comments', [deserializeUser, validateUser], commentRouter);
+app.use('/api/v1/profiles', [deserializeUser, validateUser], profileRouter);
 
-app.get('/healthCheck', (req: Request, res: Response) => {
+app.get('api/v1/healthCheck', (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
