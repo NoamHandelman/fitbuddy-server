@@ -1,8 +1,8 @@
 import { FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
 import Post, { IPostDocument, IPostInput } from '../models/post.model';
-import { NotFoundError } from '../errors/NotFound';
 import { validatePermissions } from '../utils/validatePermissions';
 import { findUser } from './user.service';
+import { NotFoundError } from '../errors/NotFound';
 
 export const createPost = async (input: IPostInput) => {
   const post = await Post.create({ ...input });

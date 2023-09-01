@@ -1,5 +1,4 @@
 import { FilterQuery, UpdateQuery } from 'mongoose';
-import { NotFoundError } from '../errors/NotFound';
 import Comment, {
   ICommentDocument,
   ICommentInput,
@@ -7,6 +6,7 @@ import Comment, {
 import Post from '../models/post.model';
 import { findPost } from './post.service';
 import { validatePermissions } from '../utils/validatePermissions';
+import { NotFoundError } from '../errors/NotFound';
 
 export const createComment = async (input: ICommentInput) => {
   const post = await findPost({ _id: input.post });

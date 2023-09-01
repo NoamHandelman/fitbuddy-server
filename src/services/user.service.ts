@@ -6,11 +6,11 @@ import {
   LoginUserInput,
   RegisterUserInput,
 } from '../schemas/user.schema';
-import { BadRequestError } from '../errors/BadRequest';
-import { NotFoundError } from '../errors/NotFound';
 import { deleteProfile } from './profile.service';
 import { updatePosts } from './post.service';
 import { generateS3Url, deleteS3Image } from '../utils/s3';
+import { NotFoundError } from '../errors/NotFound';
+import { BadRequestError } from '../errors/BadRequest';
 
 export const registerUser = async (input: RegisterUserInput) => {
   try {

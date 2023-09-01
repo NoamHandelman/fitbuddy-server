@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { UnauthorizedError } from '../errors/Unauthorized';
 import { findUser } from '../services/user.service';
+import { UnauthorizedError } from '../errors/Unauthorized';
 
 export const validateUser = async (
   req: Request,

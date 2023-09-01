@@ -1,9 +1,9 @@
 import { FilterQuery, UpdateQuery } from 'mongoose';
 import Profile, { IProfileDocument } from '../models/profile.model';
-import { NotFoundError } from '../errors/NotFound';
 import { findUser } from './user.service';
 import { DeleteDetailInput } from '../schemas/profile.schema';
 import User from '../models/user.model';
+import { NotFoundError } from '../errors/NotFound';
 
 export const getAllProfiles = async () => {
   const profiles = await Profile.find({}).populate({
