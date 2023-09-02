@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
@@ -36,7 +36,7 @@ app.use('/api/v1/posts', [deserializeUser, validateUser], postRouter);
 app.use('/api/v1/comments', [deserializeUser, validateUser], commentRouter);
 app.use('/api/v1/profiles', [deserializeUser, validateUser], profileRouter);
 
-app.get('api/v1/healthCheck', (req: Request, res: Response) => {
+app.get('/api/v1/healthCheck', (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
