@@ -17,7 +17,7 @@ const initializeS3Client = () => {
     const s3BucketName = process.env.S3_BUCKET_NAME;
     const s3BucketRegion = process.env.S3_BUCKET_REGION;
     const awsAccessKey = process.env.AWS_ACCESS_KEY;
-    const awsSecretKey = process.env.AWS_SECRET_TOKEN_KEY;
+    const awsSecretKey = process.env.AWS_SECRET_KEY;
 
     if (!s3BucketName || !s3BucketRegion || !awsAccessKey || !awsSecretKey) {
       throw new Error('Required environment variables are missing!');
