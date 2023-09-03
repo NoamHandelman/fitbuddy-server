@@ -15,12 +15,15 @@ import { deserializeUser } from './middlewares/deserializeUser';
 import { validateUser } from './middlewares/validateUser';
 
 const app = express();
-const port = 8080;
+
+const port = process.env.PORT;
 
 app.use(
   cors({
-    origin: 'https://fitbuddy-client.vercel.app',
-    // 'http://localhost:3000',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? process.env.ORIGIN
+        : 'http://localhost:3000',
     credentials: true,
     optionsSuccessStatus: 204,
   })
