@@ -9,6 +9,8 @@ export const deserializeUser = (
 ) => {
   const { token } = req.cookies;
 
+  console.log(token);
+
   if (!token) {
     throw new UnauthorizedError(
       'You are not authorized to perform this action'
