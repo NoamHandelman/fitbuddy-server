@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { UnauthorizedError } from '../errors/Unauthorized';
+import { UnauthorizedError } from '../custom-errors/Unauthorized';
 
 export const deserializeUser = (
   req: Request,

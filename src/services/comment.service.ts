@@ -6,7 +6,7 @@ import Comment, {
 import Post from '../models/post.model';
 import { findPost } from './post.service';
 import { validatePermissions } from '../utils/validatePermissions';
-import { NotFoundError } from '../errors/NotFound';
+import { NotFoundError } from '../custom-errors/NotFound';
 
 export const createComment = async (input: ICommentInput) => {
   const post = await findPost({ _id: input.post });
