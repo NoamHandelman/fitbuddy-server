@@ -7,9 +7,20 @@ export const deserializeUser = (
   res: Response,
   next: NextFunction
 ) => {
-  const { token } = req.cookies;
+  const authorizationHeader = req.headers['authorization'] as string;
 
-  console.log(token);
+  if (!authorizationHeader) {
+    throw new UnauthorizedError(
+      'You are not authorized to perform this action!'
+    );
+  }
+
+  const tokenParts = authorizationHeader.split(' ');
+  if (tokenParts.length !== 2 || tokenParts[0] !== 'Bearer') {
+    throw new UnauthorizedError('Invalid authorization header format!');
+  }
+
+  const token = tokenParts[1];
 
   if (!token) {
     throw new UnauthorizedError(
@@ -17,11 +28,14 @@ export const deserializeUser = (
     );
   }
 
+  const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
+  if (!accessTokenSecret) {
+    throw new Error('Access token secret is not defined!');
+  }
+
   try {
-    const payload = jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET as string
-    ) as JwtPayload;
+    const payload = jwt.verify(token, accessTokenSecret) as JwtPayload;
 
     res.locals.user = payload.user;
     next();

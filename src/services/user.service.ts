@@ -18,6 +18,7 @@ export const registerUser = async (input: RegisterUserInput) => {
     const accessToken = user.createAccessToken();
     user.password = undefined!;
     user.email = undefined!;
+    user.__v = undefined!;
     return { user, accessToken };
   } catch (error: any) {
     throw new Error(error);
@@ -39,7 +40,9 @@ export const loginUser = async (input: LoginUserInput) => {
 
   const accessToken = user.createAccessToken();
   user.password = undefined!;
-  user.email = undefined!;
+  // user.email = undefined!;
+  user.__v = undefined!;
+
   return { user, accessToken };
 };
 

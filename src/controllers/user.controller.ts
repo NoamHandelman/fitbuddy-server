@@ -40,7 +40,9 @@ export const loginUserController = async (
   try {
     const { user, accessToken } = await loginUser(req.body);
     attachCookie(res, accessToken);
-    return res.status(200).json({ user, message: 'Successfully logged in!' });
+    return res
+      .status(200)
+      .json({ user, accessToken, message: 'Successfully logged in!' });
   } catch (error) {
     next(error);
   }
