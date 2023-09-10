@@ -2,7 +2,7 @@ import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
 
 export const handleError: ErrorRequestHandler = async (err, req, res, next) => {
-  console.log(err);
+  console.error(err);
 
   let customizedError = {
     status: err.status || 500,

@@ -17,7 +17,6 @@ export const registerUser = async (input: RegisterUserInput) => {
     const user = await User.create(input);
     const accessToken = user.createAccessToken();
     user.password = undefined!;
-    user.email = undefined!;
     user.__v = undefined!;
     return { user, accessToken };
   } catch (error: any) {
@@ -40,7 +39,6 @@ export const loginUser = async (input: LoginUserInput) => {
 
   const accessToken = user.createAccessToken();
   user.password = undefined!;
-  // user.email = undefined!;
   user.__v = undefined!;
 
   return { user, accessToken };
@@ -52,7 +50,7 @@ export const getUser = async (userId: string) => {
     throw new NotFoundError('Unable to find user!');
   }
   user.password = undefined!;
-  user.email = undefined!;
+  user.__v = undefined!;
   return user;
 };
 
@@ -73,11 +71,10 @@ export const editUser = async (userId: string, update: EditUserInput) => {
     throw new BadRequestError('Unable to update user, try again later!');
   }
 
-  const accessToken = user.createAccessToken();
   user.password = undefined!;
-  user.email = undefined!;
+  user.__v = undefined;
 
-  return { updatedUser, accessToken };
+  return updatedUser;
 };
 
 export const addUserImage = async (
@@ -93,7 +90,13 @@ export const addUserImage = async (
 
     await generateS3Url(file);
 
-    const imageUrl = `https://d38sh0xhlkw1p8.cloudfront.net/${file.originalname}`;
+    const cloudfrontUrl = process.env.CLOUDFRONT_URL;
+
+    if (!cloudfrontUrl) {
+      throw new Error('cloudfrontUrl env is not defined!');
+    }
+
+    const imageUrl = `${cloudfrontUrl}${file.originalname}`;
 
     user.imageUrl = imageUrl;
     await user.save();

@@ -29,7 +29,7 @@ export const getUserPostsSchema = z.object({
     }),
   }),
   query: z.object({
-    page: z.string({ required_error: 'Page is required!' }).optional(),
+    page: z.string({ required_error: 'Page number is required!' }).optional(),
   }),
 });
 

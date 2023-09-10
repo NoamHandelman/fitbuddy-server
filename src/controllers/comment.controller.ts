@@ -36,8 +36,10 @@ export const getCommentsController = async (
   next: NextFunction
 ) => {
   try {
-    const comments = await getComments(req.params.postId!);
-    res.status(200).json({ comments });
+    if (req.params.postId) {
+      const comments = await getComments(req.params.postId);
+      res.status(200).json({ comments });
+    }
   } catch (error) {
     next(error);
   }
@@ -49,13 +51,17 @@ export const editCommentController = async (
   next: NextFunction
 ) => {
   try {
-    const comment = await editComment(
-      req.params.commentId!,
-      req.body,
-      res.locals.user
-    );
+    if (req.params.commentId) {
+      const comment = await editComment(
+        req.params.commentId,
+        req.body,
+        res.locals.user
+      );
 
-    res.status(200).json({ comment, message: 'Comment successfully updated!' });
+      res
+        .status(200)
+        .json({ comment, message: 'Comment successfully updated!' });
+    }
   } catch (error) {
     next(error);
   }
@@ -67,8 +73,10 @@ export const deleteCommentController = async (
   next: NextFunction
 ) => {
   try {
-    await deleteComment(req.params.commentId!, res.locals.user);
-    res.status(200).json({ message: 'Comment successfully deleted!' });
+    if (req.params.commentId) {
+      await deleteComment(req.params.commentId, res.locals.user);
+      res.status(200).json({ message: 'Comment successfully deleted!' });
+    }
   } catch (error) {
     next(error);
   }

@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-// TODO: Refactor that the schema will get only one value
-
 export const profileSchema = z.object({
   body: z.object({
     bio: z.string().optional(),

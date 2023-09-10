@@ -14,7 +14,6 @@ import {
   registerUserController,
   loginUserController,
   getUserController,
-  logoutUserController,
   editUserController,
   addUserImageController,
   deleteUserImageController,
@@ -34,8 +33,6 @@ router
 router
   .route('/login')
   .post(validateRequest(loginUserSchema), loginUserController);
-
-router.route('/logout').get(deserializeUser, logoutUserController);
 
 router
   .route('/')
