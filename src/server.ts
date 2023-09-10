@@ -48,7 +48,13 @@ app.use(handleError);
 app.listen(port, async () => {
   try {
     await connectToDatabase();
-    console.log(`Server is running at https://localhost:${port}`);
+    console.log(
+      `Server is running at ${
+        process.env.NODE_ENV === 'production'
+          ? 'https://fittbudy-server.onrender.com'
+          : `http://localhost:${port}`
+      }`
+    );
   } catch (error: any) {
     console.error('Error occurred : ', error);
     process.exit(1);
