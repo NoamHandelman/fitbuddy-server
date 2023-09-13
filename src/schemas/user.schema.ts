@@ -1,5 +1,44 @@
 import { z } from 'zod';
 
+// /**
+//  * @openapi
+//  * components:
+//  *  schemas:
+//  *    RegisterUserInput:
+//  *      type: object
+//  *      required:
+//  *        - username
+//  *        - email
+//  *        - password
+//  *        - passwordConfirmation
+//  *      properties:
+//  *        username:
+//  *          type: string
+//  *          default: Jane Doe
+//  *        email:
+//  *          type: string
+//  *          default: jane.doe@example.com
+//  *        password:
+//  *          type: string
+//  *          default: stringPassword123
+//  *        passwordConfirmation:
+//  *          type: string
+//  *          default: stringPassword123
+//  *    RegisterUserResponse:
+//  *      type: object
+//  *      properties:
+//  *        email:
+//  *          type: string
+//  *        username:
+//  *          type: string
+//  *        _id:
+//  *          type: string
+//  *        accessToken:
+//  *          type: string
+//  *        message:
+//  *          type: string
+//  */
+
 export const registerUserSchema = z.object({
   body: z
     .object({
