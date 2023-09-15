@@ -106,8 +106,6 @@ export const editPost = async (
 
   update.updatedAt = new Date();
 
-  console.log(update);
-
   const updatedPost = await Post.findOneAndUpdate({ _id: postId }, update, {
     new: true,
   });

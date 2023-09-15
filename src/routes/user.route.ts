@@ -37,8 +37,6 @@ const upload = multer({ storage });
  *      required: true
  *      content:
  *        application/json:
- *           schema:
- *              $ref: '#/components/schemas/RegisterUserInput'
  *           example:
  *              username: "exampleUser"
  *              email: "user@example.com"
@@ -49,8 +47,6 @@ const upload = multer({ storage });
  *        description: Created
  *        content:
  *          application/json:
- *            schema:
- *              $ref: '#/components/schemas/RegisterUserResponse'
  *            example:
  *              user:
  *                username: "exampleUser"
@@ -88,7 +84,7 @@ router
  *              password: "securePassword"
  *     responses:
  *      200:
- *        description: Success
+ *        description: OK
  *        content:
  *          application/json:
  *            example:
@@ -129,7 +125,7 @@ router
  *       - bearerAuth: []
  *     responses:
  *      200:
- *        description: Success
+ *        description: OK
  *        content:
  *          application/json:
  *            example:
@@ -166,7 +162,7 @@ router
  *       - bearerAuth: []
  *     responses:
  *      200:
- *        description: Success
+ *        description: OK
  *        content:
  *          application/json:
  *            example:
