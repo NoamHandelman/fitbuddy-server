@@ -99,3 +99,7 @@ export const deleteComment = async (commentId: string, userId: string) => {
 export const findComment = async (query: FilterQuery<ICommentDocument>) => {
   return await Comment.findOne(query);
 };
+
+export const deleteComments = async (query: FilterQuery<ICommentDocument>) => {
+  await Comment.deleteMany(query);
+};

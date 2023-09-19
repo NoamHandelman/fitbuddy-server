@@ -11,6 +11,7 @@ import { updatePosts } from './post.service';
 import { generateS3Url, deleteS3Image } from '../utils/s3';
 import { NotFoundError } from '../custom-errors/NotFound';
 import { BadRequestError } from '../custom-errors/BadRequest';
+import { deleteComments } from './comment.service';
 
 export const registerUser = async (input: RegisterUserInput) => {
   try {
@@ -139,6 +140,8 @@ export const deleteUser = async (userId: string) => {
   );
 
   await Post.deleteMany(query);
+
+  await deleteComments({ user: userId });
 
   await deleteProfile(query);
 

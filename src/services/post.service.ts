@@ -3,7 +3,7 @@ import Post, { IPostDocument, IPostInput } from '../models/post.model';
 import { validatePermissions } from '../utils/validatePermissions';
 import { findUser } from './user.service';
 import { NotFoundError } from '../custom-errors/NotFound';
-import Comment from '../models/comment.model';
+import { deleteComments } from './comment.service';
 
 export const createPost = async (input: IPostInput) => {
   const post = await Post.create({ ...input });
@@ -126,7 +126,7 @@ export const deletePost = async (postId: string, userId: string) => {
 
   validatePermissions(post.user, userId);
 
-  await Comment.deleteMany({ post: postId });
+  await deleteComments({ post: postId });
 
   const deletedPost = await Post.deleteOne({ _id: postId });
   if (!deletedPost) {
