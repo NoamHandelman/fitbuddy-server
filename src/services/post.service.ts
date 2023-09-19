@@ -3,6 +3,7 @@ import Post, { IPostDocument, IPostInput } from '../models/post.model';
 import { validatePermissions } from '../utils/validatePermissions';
 import { findUser } from './user.service';
 import { NotFoundError } from '../custom-errors/NotFound';
+import Comment from '../models/comment.model';
 
 export const createPost = async (input: IPostInput) => {
   const post = await Post.create({ ...input });
@@ -118,14 +119,14 @@ export const editPost = async (
 };
 
 export const deletePost = async (postId: string, userId: string) => {
-  console.log(postId, userId);
-
   const post = await findPost({ _id: postId });
   if (!post) {
     throw new NotFoundError('Unable to find this post!');
   }
 
   validatePermissions(post.user, userId);
+
+  await Comment.deleteMany({ post: postId });
 
   const deletedPost = await Post.deleteOne({ _id: postId });
   if (!deletedPost) {
