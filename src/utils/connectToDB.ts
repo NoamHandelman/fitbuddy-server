@@ -5,7 +5,10 @@ dotenv.config();
 
 export const connectToDatabase = async () => {
   try {
-    const dbUrl = process.env.DB_URL;
+    const dbUrl =
+      process.env.NODE_ENV === 'production'
+        ? process.env.DB_URI
+        : process.env.DB_LOCAL_URI;
     if (!dbUrl) {
       throw new Error('Database url variable was not found!');
     }
